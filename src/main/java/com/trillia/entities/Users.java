@@ -13,7 +13,7 @@ import java.io.Serializable;
  */
 
 @Entity
-@Table(name = "trl_users")
+@Table(name = "trl_users", uniqueConstraints = {@UniqueConstraint(columnNames = {"tenantId", "userName"})})
 @Indexed(index = "Users")
 public class Users implements Serializable {
 
@@ -25,22 +25,22 @@ public class Users implements Serializable {
 
 
     @XmlElement(name = "tenant-id")
-    @Column(name = "tenant_id")
-
+    @ManyToOne
+    @JoinColumn(name = "tenant_id", referencedColumnName = "tenant_id")
     @Fields({
             @Field,
-            @Field(name = "tenantId-sort", analyze = Analyze.NO, store = Store.YES)
+            @Field(analyze = Analyze.NO, store = Store.YES)
     })
-    @SortableField(forField = "tenantId-sort")
-    private String tenantId;
+    private Subscriber tenantId;
 
 
     @XmlElement(name = "user-name")
     @Column(name = "user_name")
     @Fields({
             @Field,
-            @Field(name = "userName-sort", index = Index.YES, analyze = Analyze.NO, store = Store.NO)
+            @Field(index = org.hibernate.search.annotations.Index.YES, analyze = Analyze.NO, store = Store.NO)
     })
+
     private String userName;
 
 
@@ -48,9 +48,8 @@ public class Users implements Serializable {
     @Column(name = "user_type")
     @Fields({
             @Field,
-            @Field(name="userType-sort", index=Index.YES, analyze=Analyze.NO, store=Store.NO)
+            @Field(index = Index.YES, analyze = Analyze.NO, store = Store.NO)
     })
-    @SortableField(forField ="userType-sort" )
     private String userType;
 
 
@@ -60,7 +59,7 @@ public class Users implements Serializable {
             @Field,
             @Field(name = "ldapReference-sort", index = Index.YES, analyze = Analyze.NO, store = Store.YES)
     })
-    @SortableField(forField ="ldapReference-sort" )
+    @SortableField(forField = "ldapReference-sort")
     private String ldapReference;
 
 
@@ -72,11 +71,11 @@ public class Users implements Serializable {
         this.id = id;
     }
 
-    public String getTenantId() {
+    public Subscriber getTenantId() {
         return tenantId;
     }
 
-    public void setTenantId(String tenantId) {
+    public void setTenantId(Subscriber tenantId) {
         this.tenantId = tenantId;
     }
 
@@ -103,4 +102,9 @@ public class Users implements Serializable {
     public void setLdapReference(String ldapReference) {
         this.ldapReference = ldapReference;
     }
+
+
 }
+
+
+
