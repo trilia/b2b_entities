@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<user:Users xmlns:user="http://trilia-cloud.com/schema/entity/ut/Users/">
+  <!--Optional:-->
+  <id>10</id>
+  <!--Optional:-->
+  <created-by-id>string</created-by-id>
+  <!--Optional:-->
+  <created-by>string</created-by>
+  <!--Optional:-->
+  <created-date>2008-09-29T07:19:45</created-date>
+  <!--Optional:-->
+  <revised-by-id>string</revised-by-id>
+  <!--Optional:-->
+  <revised-date>2014-09-19T04:48:33</revised-date>
+  <!--Optional:-->
+  <object-version-number>string</object-version-number>
+  <!--Optional:-->
+  <resourceType>string</resourceType>
+  <!--Optional:-->
+  <tenant-id>
+    <tenant-id>10</tenant-id>
+    <!--Optional:-->
+    <partition-code>string</partition-code>
+    <!--Optional:-->
+    <subscriber-name>string</subscriber-name>
+    <!--Optional:-->
+    <subscriber-email>string</subscriber-email>
+    <!--Optional:-->
+    <subscriber-phone>string</subscriber-phone>
+  </tenant-id>
+  <!--Optional:-->
+  <user-name>string</user-name>
+  <!--Optional:-->
+  <user-type>string</user-type>
+  <!--Optional:-->
+  <ldap-reference>string</ldap-reference>
+</user:Users>
