@@ -10,6 +10,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * Created by mmathew on 26/05/16.
@@ -21,6 +22,16 @@ import java.io.Serializable;
 @FullTextFilterDef(name="filter-role", impl=TenantBasedSearchFilterFactory.class)
 @XmlRootElement(name="Role", namespace="http://trilia-cloud.com/schema/entity/ut/Role/")
 @XmlAccessorType(XmlAccessType.FIELD)
+
+@NamedQueries({
+
+
+
+        @NamedQuery(name = "Role.findAllRoles", query = "SELECT t from Role t")
+
+}
+)
+
 public class Role extends RevisionControl  implements Serializable{
 
     @XmlElement(name = "tenant-id")
@@ -81,6 +92,9 @@ public class Role extends RevisionControl  implements Serializable{
     private String status;
 
 
+    @OneToMany(mappedBy = "userId")
+    private List<UserRoleAssociation> userRoleAssociationList;
+
     public Subscriber getTenantId() {
         return tenantId;
     }
@@ -135,5 +149,13 @@ public class Role extends RevisionControl  implements Serializable{
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public List<UserRoleAssociation> getUserRoleAssociationList() {
+        return userRoleAssociationList;
+    }
+
+    public void setUserRoleAssociationList(List<UserRoleAssociation> userRoleAssociationList) {
+        this.userRoleAssociationList = userRoleAssociationList;
     }
 }

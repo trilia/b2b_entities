@@ -10,21 +10,21 @@ import java.util.List;
  * Created by mmathew on 18/06/16.
  */
 
-@XmlRootElement(name = "userRoleList", namespace = "http://trilia-cloud.com/schema/entity/ut/UserRoleAssociation/")
+@XmlRootElement(name = "userRoleAssociationList", namespace = "http://trilia-cloud.com/schema/entity/ut/UserRoleAssociation/")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(propOrder = {"userRoleAssociationListList"})
+@XmlType(propOrder = {"userRoleAssociationList"})
 public class UserRoleAssociationContainer {
 
 
-    @XmlElement(name = "role")
-    private List<UserRoleAssociation> userRoleAssociationListList;
+    @XmlElement(name = "userRoleAssociation")
+    private List<UserRoleAssociation> userRoleAssociationList;
 
     public List<UserRoleAssociation> getEntityList() {
-        return userRoleAssociationListList;
+        return userRoleAssociationList;
     }
 
     public void setEnityList(List<UserRoleAssociation> userRoleAssociationListList) {
-        this.userRoleAssociationListList = userRoleAssociationListList;
+        this.userRoleAssociationList = userRoleAssociationListList;
     }
 
 }

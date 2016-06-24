@@ -1,5 +1,6 @@
 package com.trillia.jpa.entities;
 
+import com.trillia.jpa.fieldbridge.RoleBridge;
 import com.trillia.jpa.fieldbridge.SubscriberBridge;
 import com.trillia.jpa.fieldbridge.UserBridge;
 import com.trillia.jpa.utilities.TenantBasedSearchFilterFactory;
@@ -23,7 +24,7 @@ import java.io.Serializable;
 @Table(name = "trl_user_role_associations", uniqueConstraints = {@UniqueConstraint(columnNames = {"tenant_id"})})
 @Indexed(index = "SetupDataIndex")
 @NamedQueries({
-        @NamedQuery(name="UserRoleAssociation.findByUser", query="SELECT t from UserRoleAssociation t join fetch t.userId WHERE t.userId.id = :id")
+        @NamedQuery(name="UserRoleAssociation.findByUser", query="SELECT t from UserRoleAssociation t  WHERE t.userId.id = :id")
 })
 //@DiscriminatorValue("UserRoleAssociation")
 @FullTextFilterDef(name="filter-user-role-association", impl=TenantBasedSearchFilterFactory.class)
@@ -50,15 +51,16 @@ public class UserRoleAssociation extends RevisionControl  {
             @Field,
             @Field(analyze = Analyze.NO, store = Store.YES)
     })
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "user_id")
     @FieldBridge(impl = UserBridge.class)
     private Users userId;
 
 
     @XmlElement(name = "role-id")
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "role_id")
+    @FieldBridge(impl = RoleBridge.class)
     private Role roleId;
 
     @XmlElement(name = "enabled-flag")

@@ -141,13 +141,13 @@
         </dependency>
 
         <!-- http://mvnrepository.com/artifact/com.atomikos/transactions-jta -->
+
+
         <dependency>
-            <groupId>com.atomikos</groupId>
-            <artifactId>transactions-jta</artifactId>
-            <version>3.7.0</version>
+            <groupId>org.jboss.jbossts</groupId>
+            <artifactId>jbossjta</artifactId>
+            <version>4.16.4.Final</version>
         </dependency>
-
-
 
         <dependency>
             <groupId>org.hibernate</groupId>

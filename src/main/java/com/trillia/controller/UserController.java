@@ -1,6 +1,7 @@
 package com.trillia.controller;
 
 import com.trillia.jpa.entities.Role;
+import com.trillia.jpa.entities.Subscriber;
 import com.trillia.jpa.entities.UserRoleAssociation;
 import com.trillia.jpa.entities.Users;
 import com.trillia.service.UserService;
@@ -42,6 +43,15 @@ public class UserController {
         return userService.saveRoles(roles);
     }
 
+    @Transactional
+    @POST
+    @Produces({MediaType.APPLICATION_JSON})
+    @Consumes({MediaType.APPLICATION_JSON})
+    @Path("/subscribers")
+    public List<Subscriber> addSubscriber(List<Subscriber> subsriberList) {
+        return userService.saveSubscribers(subsriberList);
+    }
+
 
     @Transactional
     @POST
@@ -52,7 +62,6 @@ public class UserController {
         return userService.saveUserRoleAssociation(userRoleAssociationList);
     }
 
-
     @GET
     @Produces({MediaType.APPLICATION_JSON})
     @Path("/roles/user/{id}")
@@ -60,5 +69,28 @@ public class UserController {
         return userService.getRolesForUser(userid);
     }
 
+
+    @GET
+    @Produces({MediaType.APPLICATION_JSON})
+    @Path("/users")
+    public List<Users> getUsers() {
+        return userService.getUsers();
+    }
+
+
+    @GET
+    @Produces({MediaType.APPLICATION_JSON})
+    @Path("/roles")
+    public List<Role> getRoles() {
+        return userService.getRoles();
+    }
+
+
+    @GET
+    @Produces({MediaType.APPLICATION_JSON})
+    @Path("/subscriber")
+    public List<Subscriber> geAlltSubcriber() {
+        return userService.getAllSubscriber();
+    }
 
 }

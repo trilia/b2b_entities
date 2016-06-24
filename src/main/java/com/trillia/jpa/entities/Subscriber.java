@@ -22,6 +22,11 @@ import java.io.Serializable;
 @FullTextFilterDef(name="filter-subscriber", impl=TenantBasedSearchFilterFactory.class)
 @XmlRootElement(name="Subscriber", namespace="http://trilia-cloud.com/schema/entity/ut/Subscriber/")
 @XmlAccessorType(XmlAccessType.FIELD)
+@NamedQueries({
+        @NamedQuery(name = "Subscriber.findAllSubscriber", query = "SELECT t from Subscriber t ")
+
+}
+)
 public class Subscriber implements Serializable {
 
 

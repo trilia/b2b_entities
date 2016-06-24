@@ -9,5 +9,5 @@ import org.springframework.data.repository.NoRepositoryBean;
  * Created by mmathew on 05/06/16.
  */
 @NoRepositoryBean
-public interface ResourceRepository<T extends RevisionControl> extends JpaRepository<T,String> {
+public interface ResourceRepository<T extends RevisionControl> extends JpaRepository<T,Long> {
 }

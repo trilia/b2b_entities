@@ -1,14 +1,11 @@
 package com.trillia.service;
 
 import com.trillia.jpa.entities.Role;
+import com.trillia.jpa.entities.Subscriber;
 import com.trillia.jpa.entities.UserRoleAssociation;
 import com.trillia.jpa.entities.Users;
-import com.trillia.jpa.repo.RoleRepository;
-import com.trillia.jpa.repo.UserRepository;
-import com.trillia.jpa.repo.IUserRoleAssociationRepository;
-import com.trillia.jpa.repo.UserRoleAssociationRepositoryImpl;
+import com.trillia.jpa.repo.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -27,10 +24,19 @@ public class UserService {
     @Autowired
     private RoleRepository roleRepository;
 
+    @Autowired
+    private UsersRepository usersRepository;
 
     @Autowired
-    @Qualifier("userRoleAssociationRepository")
-    private UserRoleAssociationRepositoryImpl userRoleAssociationRepository;
+    private RolesRepositoryImpl rolesRepository;
+
+    @Autowired
+    private SubcriberRepository subcriberRepository;
+
+
+    @Autowired
+    //@Qualifier("userRoleAssociationRepository")
+    private UsersRepository userRoleAssociationRepository;
 
     @Autowired
     private IUserRoleAssociationRepository iUserRoleAssociationRepository;
@@ -43,6 +49,14 @@ public class UserService {
     }
 
 
+    public List<Subscriber> saveSubscribers(List<Subscriber> subscribers) {
+        List<Subscriber> subscriberList = subcriberRepository.save(subscribers);
+        subcriberRepository.flush();
+        return subscriberList;
+
+    }
+
+
     public List<Role> saveRoles(List<Role> roles) {
         List<Role> roleRes = roleRepository.save(roles);
         roleRepository.flush();
@@ -50,21 +64,43 @@ public class UserService {
     }
 
     public List<UserRoleAssociation> saveUserRoleAssociation(List<UserRoleAssociation> userRoleAssociationList) {
-        List<UserRoleAssociation> userRoleAssociations = iUserRoleAssociationRepository.save(userRoleAssociationList);
-        iUserRoleAssociationRepository.flush();
-        return userRoleAssociations;
+        for (UserRoleAssociation userRoleAssociations : userRoleAssociationList) {
+           try {
+               iUserRoleAssociationRepository.save(userRoleAssociations);
+               iUserRoleAssociationRepository.flush();
+           }
+           catch(Exception e)
+           {
+
+           }
+           }
+        return userRoleAssociationList;
     }
 
 
     public List<Role> getRolesForUser(String userID) {
-        List<UserRoleAssociation> userRoleAssociations = userRoleAssociationRepository.findUserRoleAssociationByUserId(Long.parseLong(userID));
+        Users user = userRoleAssociationRepository.findUserRoleAssociationByUserId(Long.parseLong(userID));//ndOne(Long.parseLong(userID));
+        List<UserRoleAssociation> userRoleAssociations = user.getUserRoleAssociationList();
         List<Role> roleList = new ArrayList<>();
         for (UserRoleAssociation userRoleAssociation : userRoleAssociations) {
-            roleList.add(userRoleAssociation.getRoleId());
+            //        roleList.add(userRoleAssociation.getRoleId());
         }
         return roleList;
 
     }
 
 
+    public List<Users> getUsers() {
+
+        return usersRepository.getAllUsers();
+    }
+
+
+    public List<Role> getRoles() {
+        return rolesRepository.getAllRoles();//Repository.findAll();
+    }
+
+    public List<Subscriber> getAllSubscriber() {
+        return usersRepository.getAllSubscriber();
+    }
 }

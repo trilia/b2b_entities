@@ -11,6 +11,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+import java.util.List;
 
 /**
  * Created by mmathew on 20/05/16.
@@ -19,13 +20,19 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Entity
 @Table(name = "trl_users", uniqueConstraints = {@UniqueConstraint(columnNames = {"tenant_id", "user_name"})})
 @Indexed(index = "SetupDataIndex")
-@FullTextFilterDef(name="filter-users-by-tenant", impl=TenantBasedSearchFilterFactory.class)
-@XmlRootElement(name="Users", namespace="http://trilia-cloud.com/schema/entity/ut/Users/")
+@FullTextFilterDef(name = "filter-users-by-tenant", impl = TenantBasedSearchFilterFactory.class)
+@XmlRootElement(name = "Users", namespace = "http://trilia-cloud.com/schema/entity/ut/Users/")
 @XmlAccessorType(XmlAccessType.FIELD)
+@NamedQueries({
+        @NamedQuery(name = "Users.findByUser", query = "SELECT t from Users t  WHERE t.id = :id"),
+
+
+        @NamedQuery(name = "Users.findAllUser", query = "SELECT t from Users t")
+
+}
+)
 //@DiscriminatorValue("Users")
-public class Users extends RevisionControl  {
-
-
+public class Users extends RevisionControl {
 
 
     @XmlElement(name = "tenant-id")
@@ -63,10 +70,11 @@ public class Users extends RevisionControl  {
             @Field,
             @Field(name = "ldapReference-sort", index = Index.YES, analyze = Analyze.NO, store = Store.YES)
     })
-  //  @SortableField(forField = "ldapReference-sort")
+    //  @SortableField(forField = "ldapReference-sort")
     private String ldapReference;
 
-
+    @OneToMany(mappedBy = "userId")
+    private List<UserRoleAssociation> userRoleAssociationList;
 
     public Subscriber getTenantId() {
         return tenantId;
@@ -100,7 +108,13 @@ public class Users extends RevisionControl  {
         this.ldapReference = ldapReference;
     }
 
+    public List<UserRoleAssociation> getUserRoleAssociationList() {
+        return userRoleAssociationList;
+    }
 
+    public void setUserRoleAssociationList(List<UserRoleAssociation> userRoleAssociationList) {
+        this.userRoleAssociationList = userRoleAssociationList;
+    }
 }
 
 
